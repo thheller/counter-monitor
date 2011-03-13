@@ -1,0 +1,18 @@
+!!!
+%html
+  %head
+    %title Monitor
+
+    %link(href="/css/main.css" media="screen" rel="stylesheet" type="text/css")
+    %script(src="/javascripts/protovis-r3.2.js")
+    %script(src="/javascripts/monitor.js")
+
+  %body
+    .container.prepend-top
+      #counters
+        %h1 Counters
+        %ul
+          - @counters.each do |c|
+            %li
+              %a(href="/counter/#{c}")= c
+

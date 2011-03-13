@@ -1,0 +1,129 @@
+!!!
+%html
+  %head
+    %title Monitor
+
+    %link(href="/css/main.css" media="screen" rel="stylesheet" type="text/css")
+    %script(src="/javascripts/protovis-r3.2.js")
+    %meta(http-equiv="refresh" content="60") 
+
+  %body
+    .container.prepend-top
+      #counters.span-6.colborder
+        %h1 Counters
+
+        %ul
+          - @counters.each do |c|
+            %li
+              %a(href="/counter/#{c}")= c
+
+      #graphs.span-17.last
+        %h1= @counter
+
+        %h2 Last 60 Minutes
+
+        #graph-60m
+          %script(type="text/javascript+protovis")
+            :plain
+              var minutes = #{@minutes.reverse.to_json};
+              var data = pv.range(0, minutes.length).map(function(x) {
+                return { x: x, y: minutes[x] };
+              });
+
+              var w = 670,
+                  h = 140,
+                  x = pv.Scale.linear(60, 0).range(0, w),
+                  y = pv.Scale.linear(0, #{@minutes.max + 1}).range(0, h);
+
+              /* The root panel. */
+              var vis = new pv.Panel()
+                  .width(w)
+                  .height(h)
+                  .bottom(20)
+                  .left(20)
+                  .right(10)
+                  .top(5);
+
+              /* Y-axis and ticks. */
+              vis.add(pv.Rule)
+                  .data(y.ticks(5))
+                  .bottom(y)
+                  .strokeStyle(function(d) d ? "#eee" : "#000")
+                .anchor("left").add(pv.Label)
+                  .text(y.tickFormat);
+
+              /* X-axis and ticks. */
+              vis.add(pv.Rule)
+                  .data(x.ticks())
+                  .visible(function(d) d)
+                  .left(x)
+                  .bottom(-5)
+                  .height(5)
+                .anchor("bottom").add(pv.Label)
+                  .text(x.tickFormat);
+
+              /* The area with top line. */
+              vis.add(pv.Area)
+                  .data(data)
+                  .bottom(1)
+                  .left(function(d) x(d.x))
+                  .height(function(d) y(d.y))
+                  .fillStyle("rgb(121,173,210)")
+                .anchor("top").add(pv.Line)
+                  .lineWidth(2);
+
+              vis.render();
+
+        %h2.prepend-top Last 24 Hours
+
+        #graph-24h
+          %script(type="text/javascript+protovis")
+            :plain
+              var hours = #{@hours.reverse.to_json};
+              var data = pv.range(0, hours.length).map(function(x) {
+                return { x: x, y: hours[x] };
+              });
+
+              var w = 670,
+                  h = 140,
+                  x = pv.Scale.linear(24, 0).range(0, w),
+                  y = pv.Scale.linear(0, #{@hours.max + 1}).range(0, h);
+
+              /* The root panel. */
+              var vis = new pv.Panel()
+                  .width(w)
+                  .height(h)
+                  .bottom(20)
+                  .left(20)
+                  .right(10)
+                  .top(5);
+
+              /* Y-axis and ticks. */
+              vis.add(pv.Rule)
+                  .data(y.ticks(5))
+                  .bottom(y)
+                  .strokeStyle(function(d) d ? "#eee" : "#000")
+                .anchor("left").add(pv.Label)
+                  .text(y.tickFormat);
+
+              /* X-axis and ticks. */
+              vis.add(pv.Rule)
+                  .data(x.ticks())
+                  .visible(function(d) d)
+                  .left(x)
+                  .bottom(-5)
+                  .height(5)
+                .anchor("bottom").add(pv.Label)
+                  .text(x.tickFormat);
+
+              /* The area with top line. */
+              vis.add(pv.Area)
+                  .data(data)
+                  .bottom(1)
+                  .left(function(d) x(d.x))
+                  .height(function(d) y(d.y))
+                  .fillStyle("rgb(121,173,210)")
+                .anchor("top").add(pv.Line)
+                  .lineWidth(2);
+
+              vis.render();

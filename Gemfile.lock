@@ -1,0 +1,41 @@
+GIT
+  remote: git://github.com/thheller/timed-counter
+  revision: 4a2f4902d5439fe381d11a4104171ec4b4194338
+  specs:
+    timed-counter (0.1.0)
+      nest
+      redis
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    daemons (1.1.0)
+    eventmachine (0.12.10)
+    haml (3.0.25)
+    hiredis (0.3.1)
+    json (1.5.1)
+    nest (1.1.0)
+      redis (~> 2.1)
+    rack (1.2.2)
+    redis (2.1.1)
+    sinatra (1.2.0)
+      rack (~> 1.1)
+      tilt (>= 1.2.2, < 2.0)
+    thin (1.2.8)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
+    tilt (1.2.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  haml
+  hiredis
+  json
+  nest
+  redis
+  sinatra
+  thin
+  timed-counter!
