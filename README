@@ -1,0 +1,25 @@
+git clone git://github.com/thheller/counter-monitor
+
+cd counter-monitor
+
+bundle install
+
+irb
+
+require 'rubygems'
+require 'bundle/setup'
+
+require 'timed_counter'
+
+c = TimedCounter.new(Redis.connect)
+
+60.times { |it| c.incr(:woot, rand(100), Time.now - (it*60)) }
+
+quit # irb
+
+ruby app.rb
+
+open http://localhost:4567
+
+
+optinally set REDIS_URL=redis://somewhere:6379/0
